@@ -126,7 +126,7 @@ BEGIN
 	RAISE NOTICE 'cur_search_path from pg_db_role_setting is %', var_cur_search_path;
 
 	IF var_cur_search_path IS NULL THEN
-		SELECT reset_val
+		SELECT boot_val
 		INTO var_cur_search_path
 		FROM pg_catalog.pg_settings
 		WHERE name OPERATOR(pg_catalog.=) 'search_path';
@@ -144,8 +144,6 @@ BEGIN
                              OPERATOR(pg_catalog.||) ' SET search_path = ' OPERATOR(pg_catalog.||) var_cur_search_path;
 		var_result := a_schema_name OPERATOR(pg_catalog.||) ' has been added to end of database search_path ';
 	END IF;
-
-	EXECUTE 'SET search_path = ' OPERATOR(pg_catalog.||) var_cur_search_path;
 
   RETURN var_result;
 END
